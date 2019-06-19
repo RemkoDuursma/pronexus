@@ -1,8 +1,13 @@
-name: "my-website"
+name: "Pronexus R Training"
+output_dir: docs
 navbar:
-  title: "My Website"
+  title: "R Cursus"
   left:
     - text: "Home"
       href: index.html
     - text: "About"
       href: about.html
+output:
+  html_document:
+    toc: true
+    highlight: textmate

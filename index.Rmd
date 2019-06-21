@@ -4,11 +4,6 @@ title: "R Training Fundamentals - Pronexus"
 
 Welkom bij de R cursus!
 
-- [link naar iets]()
-- [nog een link]()
 
-![](images/letterr.png)
-
-
-- [Presentation 1](../xaringan/01_intro.html)
+![](../images/letterr.png)
 

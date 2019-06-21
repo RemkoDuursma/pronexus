@@ -1,0 +1,8 @@
+---
+title: "Presentaties"
+---
+
+
+
+- [Dag 1 : Introductie](../xaringan/01_intro.html)
+

@@ -1,0 +1,78 @@
+---
+title: "R en Rstudio Fundamentals"
+subtitle: "Pronexus, Juni 2019"
+author: "Remko Duursma"
+institute: "Shinto Labs"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, css/custom.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Welkom!
+
+- item
+- item
+
+
+
+
+---
+
+# Waarom R?
+
+---
+
+background-image: url(../images/trainschedule.png)
+background-size: 100%;
+class: train
+
+
+# Rooster
+
+
+---
+# Rooster
+
+## Dag 1
+
+-  Aan de slag met R en Rstudio
+-  Data Skills - Deel 1
+
+## Dag 2
+
+-  Data Skills - Deel 2
+-  Reporting: rmarkdown
+-  Statistics
+
+## Dag 3
+
+-  Programmeren
+-  Web Services
+-  Extras
+
+---
+
+# Waarom R?
+
+- 100% Flexibiliteit
+
+
+
+---
+
+# Resources
+
+- remkoduursma.github.io/pronexus
+- remkoduursma.github.io/learningguidetor
+
+.left[![](../images/caution.png)]
+
+
+
+

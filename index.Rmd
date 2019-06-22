@@ -1,9 +1,27 @@
 ---
 title: "R Training Fundamentals - Pronexus"
+output:
+  html_document:
+    toc: false
 ---
 
-Welkom bij de R cursus!
+
+Deze website is tijdelijk, en bevat materialen en links voor de R cursus bij Pronexus.
+
+<br>
+
+<span style="font-size: 1.4em">[E-versie van de Syllabus](https://remkoduursma.github.io/learningguidetor)</span>
+
+<span style="font-size: 1.4em">[Exercises: solutions](compiled_html/lgr_exercises.html)</span>
 
 
-![](../images/letterr.png)
+<hr>
+<br>
+<br>
+<br>
+
+
+### Deze cursus is aangeboden door
+
+[![](images/logo_small.jpg)](https://www.shintolabs.nl/)
 

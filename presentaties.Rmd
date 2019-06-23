@@ -1,8 +1,14 @@
 ---
 title: "Presentaties"
+output:
+  html_document:
+    toc: false
 ---
 
 
 
-- [Dag 1 : Introductie](../xaringan/01_intro.html)
+- <span style="font-size: 1.5em">[Dag 1 : Introductie](../xaringan/01_intro.html)</span>
 
+<br>
+
+- <span style="font-size: 1.5em">[Data bewerken met `dplyr`](../xaringan/02_dplyr.html)</span>

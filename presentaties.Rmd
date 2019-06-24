@@ -7,8 +7,8 @@ output:
 
 
 
-- <span style="font-size: 1.5em">[Dag 1 : Introductie](xaringan/01_intro.html)</span>
+- <span style="font-size: 1.5em">[Dag 1 : Introductie](01_intro.html)</span>
 
 <br>
 
-- <span style="font-size: 1.5em">[Data bewerken met `dplyr`](xaringan/02_dplyr.html)</span>
+- <span style="font-size: 1.5em">[Data bewerken met `dplyr`](02_dplyr.html)</span>

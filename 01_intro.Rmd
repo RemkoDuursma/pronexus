@@ -15,7 +15,7 @@ output:
       ratio: '16:9'
 ---
 
-background-image: url(../images/classroom.jpg)
+background-image: url(images/classroom.jpg)
 class: fitbackground
 
 # Welkom!
@@ -39,14 +39,14 @@ class: fitbackground
 
 
 .center[
-  ![](../images/letterr50.png)
+  ![](images/letterr50.png)
 ]
 
 
 
 ---
 
-background-image: url(../images/trainschedule.png)
+background-image: url(images/trainschedule.png)
 class: fitbackground
 
 # Rooster
@@ -77,12 +77,12 @@ class: fitbackground
 
 .pull-right[
 
-  ![](../images/trainschedule.png)
+  ![](images/trainschedule.png)
 ]
 
 ---
 
-background-image: url(../images/shanghairoads.jpg)
+background-image: url(images/shanghairoads.jpg)
 class: fitbackground
 
 # Zoek je eigen weg!
@@ -94,10 +94,10 @@ class: fitbackground
 - Het gaat om de voorbeelden!
 
 - Probeer zelf voorbeelden aan te passen, en voor inspiratie:
-.center[![](../images/trythis.png)]
+.center[![](images/trythis.png)]
 
 - De Exercises zorgen ervoor dat je de belangrijke skills begrijpt:
-.center[![](../images/exercises.png)]
+.center[![](images/exercises.png)]
 
 ---
 
@@ -106,7 +106,7 @@ class: fitbackground
 - Website met links, presentaties: [remkoduursma.github.io/pronexus]()
 - E-versie van syllabus: [remkoduursma.github.io/learningguidetor]()
 
-.center[![](../images/learningguide.png)]
+.center[![](images/learningguide.png)]
 
 
 

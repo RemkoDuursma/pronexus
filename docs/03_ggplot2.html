@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>dplyr</title>
+    <title>ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Remko Duursma" />
     <meta name="date" content="2019-06-26" />
@@ -14,180 +14,14 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# dplyr
-## Advanced, Fast, and Easy data ironing
+# ggplot2
+## Mooie plots met R
 ### Remko Duursma
 ### Shinto Labs
 ### 2019-06-26
 
 ---
 
-
-
-
-
-class: larger
-
-# dplyr
-
-&lt;br&gt;
-
-- `group_by`  : definieer groepen in een dataframe)
-- `summarize`  : bereken staistiek per groep)
-- `filter`  : maak selectie van *rijen*
-- `select`  : maak selectie van *kolommen*
-- `arrange`  : sorteer de rijen
-- `mutate`  : maak nieuwe kolommen
-
----
-
-# `group_by` + `summarize`
-
-
-```r
-library(lgrdata)
-data(automobiles)
-
-library(dplyr)
-
-group_by(automobiles, origin) %&gt;%
-  summarize(mean_efficiency = mean(fuel_efficiency))
-```
-
-```
-## # A tibble: 3 x 2
-##   origin   mean_efficiency
-##   &lt;fct&gt;              &lt;dbl&gt;
-## 1 American           15.4 
-## 2 European           10.7 
-## 3 Japanese            9.68
-```
-
-
----
-
-# `group_by` + `summarize` (2)
-
-
-```r
-group_by(automobiles, cylinders, origin) %&gt;%
-  summarize(mean_efficiency = mean(fuel_efficiency),
-            mean_weight = mean(weight)
-            )
-```
-
-```
-## # A tibble: 9 x 4
-## # Groups:   cylinders [5]
-##   cylinders origin   mean_efficiency mean_weight
-##       &lt;int&gt; &lt;fct&gt;              &lt;dbl&gt;       &lt;dbl&gt;
-## 1         3 Japanese           13.9        1088.
-## 2         4 American           10.4        1105.
-## 3         4 European           10.4        1057.
-## 4         4 Japanese            9.22        977.
-## 5         5 European           10.9        1408.
-## 6         6 American           14.7        1458.
-## 7         6 European           15.1        1534.
-## 8         6 Japanese           12.2        1307.
-## 9         8 American           19.5        1866.
-```
-
-
----
-
-# `filter`
-
-Elke regel wordt als "AND" gebruikt!
-
-
-```r
-filter(automobiles,
-       cylinders == 8,
-       fuel_efficiency &lt; 14
-       )
-```
-
-```
-##                            car_name   origin build_year fuel_efficiency
-## 1              mercury monarch ghia American       1978        13.98515
-## 2                 cadillac eldorado American       1979        12.28261
-## 3 oldsmobile cutlass salon brougham American       1979        11.82008
-## 4             oldsmobile cutlass ls American       1981        10.62030
-##   cylinders engine_volume horsepower   weight acceleration
-## 1         8      4.948904        139 1619.327         12.8
-## 2         8      5.735485        125 1769.012         17.4
-## 3         8      4.260646         90 1551.288         22.2
-## 4         8      5.735485        105 1689.634         19.0
-```
-
-
-
----
-
-# `filter` &amp; `select`
-
-
-
-```r
-filter(automobiles,
-       cylinders == 8,
-       fuel_efficiency &lt; 14
-       ) %&gt;%
-  select(car_name, origin)
-```
-
-```
-##                            car_name   origin
-## 1              mercury monarch ghia American
-## 2                 cadillac eldorado American
-## 3 oldsmobile cutlass salon brougham American
-## 4             oldsmobile cutlass ls American
-```
-
-
----
-
-# `arrange`
-
-
-*Let op* : we hoeven zelden data te sorteren in R, alleen voor presentatie in tabellen (en soms voor visualisatie).
-
-
-```r
-filter(automobiles, cylinders == 6, origin == "Japanese") %&gt;%   # rijen
-  select(car_name, fuel_efficiency) %&gt;%
-  arrange(fuel_efficiency)
-```
-
-```
-##            car_name fuel_efficiency
-## 1     datsun 280-zx        8.639144
-## 2   toyota cressida       11.122047
-## 3 datsun 810 maxima       11.673554
-## 4        datsun 810       12.840909
-## 5    toyota mark ii       14.125000
-## 6    toyota mark ii       14.868421
-```
-
-Probeer ook:
-
-`arrange(desc(fuel_efficiency))`
-
-voor sorteren van hoog naar laag.
-
----
-
-# mutate
-
-Gebruik `mutate` om nieuwe kolommen toe te voegen, op basis van de bestaande kolommen in de dataframe:
-
-
-```r
-mutate(automobiles,
-       fuel_per_weight = fuel_efficiency / weight,
-       weight_pounds = weight * 2.20462
-       )
-```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

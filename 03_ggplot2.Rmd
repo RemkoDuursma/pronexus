@@ -1,0 +1,29 @@
+---
+title: "ggplot2"
+subtitle: "Mooie plots met R"
+author: "Remko Duursma"
+institute: "Shinto Labs"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, css/custom_dplyr.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+
+```{r echo=FALSE, include=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(lgrdata)
+```
+
+
+
+
+
+

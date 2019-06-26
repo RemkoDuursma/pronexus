@@ -6,9 +6,16 @@ output:
 ---
 
 
+<br>
 
 - <span style="font-size: 1.5em">[Dag 1 : Introductie](01_intro.html)</span>
 
 <br>
 
 - <span style="font-size: 1.5em">[Data bewerken met `dplyr`](02_dplyr.html)</span>
+
+<br>
+
+- <span style="font-size: 1.5em">[Logistische regressie: Titanic data](titanic.html)</span>
+
+

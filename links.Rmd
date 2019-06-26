@@ -27,5 +27,7 @@ Alleen nodig op Windows om R packages van Github te installeren, of je eigen pac
 
 # Voorbeeld data
 
- - Extra voorbeeld dataset als CSV : [mushroom.csv](data/mushroom.csv)
+- Extra voorbeeld dataset als CSV : [mushroom.csv](data/mushroom.csv)
  
+ 
+

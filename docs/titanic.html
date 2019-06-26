@@ -318,15 +318,24 @@ titanic$Survived &lt;- factor(ifelse(titanic$Survived == 1, &quot;yes&quot;, &qu
 <p>Let’s look at a few random rows,</p>
 <pre class="r"><code>library(dplyr)
 sample_n(titanic, 8)</code></pre>
-<pre><code>##                          Name PClass Age    Sex Survived
-## 1 Van Impe, Mrs Jean Baptiste    3rd  30 female       no
-## 2             Lovell, Mr John    3rd  NA   male       no
-## 3              Dibo, Mr Elias    3rd  NA   male       no
-## 4   Tenglin, Mr Gunnar Isidor    3rd  NA   male      yes
-## 5     McGowan, Miss Katherine    3rd  NA female       no
-## 6          Smith, Miss Marion    2nd  NA female      yes
-## 7   Lundstrom, Mr Thure Edvin    3rd  NA   male       no
-## 8       Walcroft, Miss Nellie    2nd  35 female      yes</code></pre>
+<pre><code>##                                                    Name PClass Age    Sex
+## 1                                     Lahowd, Mr Sarkis    3rd  NA   male
+## 2                                Jussila, Miss Katriina    3rd  20 female
+## 3                                    Oreskovic, Mr Luka    3rd  NA   male
+## 4                                   Banoura, Miss Ayout    3rd  15 female
+## 5                                 Hart, Miss Eva Miriam    2nd   7 female
+## 6                                    Peduzzi, Mr Joseph    3rd  NA   male
+## 7                                     Ivanoff, Mr Konio    3rd  NA   male
+## 8 Danbom, Mrs Ernst Gilbert (Anna Sigrid Maria Brogren)    3rd  28 female
+##   Survived
+## 1       no
+## 2       no
+## 3       no
+## 4      yes
+## 5      yes
+## 6       no
+## 7       no
+## 8       no</code></pre>
 <p>The idea here is to find out whether the probability of survival depends on the passenger’s <code>Age</code>, <code>Sex</code> and <code>PClass</code> (passenger class). Before we proceed, it is always a good idea to start by visualizing the data to find out what we are dealing with (and to make sure we will interpret the model output correctly). If we plot two factor variables against each other, R produces a ‘mosaic plot’, as the following example demonstrates.</p>
 <pre class="r"><code>par(mfrow=c(1,2), mgp=c(2,1,0))
 with(titanic, plot(Sex, Survived, ylab=&quot;Survived&quot;, xlab=&quot;Sex&quot;))

@@ -25,6 +25,11 @@ Alleen nodig op Windows om R packages van Github te installeren, of je eigen pac
 - [Opties voor MS Word output (Rstudio)](https://bookdown.org/yihui/rmarkdown/word-document.html)
 - [Opties voor `knitr` (opties in de code chunks)](https://yihui.name/knitr/options/)
 
+# Voorbeeld rmarkdown document
+
+- [Olie productie](data/olieproductie.Rmd)
+
+
 # Voorbeeld data
 
 - Extra voorbeeld dataset als CSV : [mushroom.csv](data/mushroom.csv)

@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data visualization with base graphics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Cursus</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="presentaties.html">Presentaties</a>
+</li>
+<li>
+  <a href="links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data visualization with base graphics</h1>
+
+</div>
+
+
+<div id="the-r-graphics-system" class="section level2">
+<h2>The R graphics system</h2>
+<p>The graphics system in R is very flexible: just about every aspect of your plot can be precisely controlled. However, this brings with it a serious learning curve - especially when you want to produce high quality polished figures for publication. In this chapter, you will learn to make simple plots, and also to control different aspects of formatting plots. The following focus on the basic built-in graphics system in R, known as the <code>base</code> graphics system.</p>
+</div>
+<div id="choosing-a-plot-type" class="section level2">
+<h2>Choosing a plot type</h2>
+<p>The following table summarizes a few important plot types. More specialized plot types, as well as very brief introductions to alternative plotting packages, are given in Section @ref(specialplots).</p>
+<div id="plotfunction" class="section level3">
+<h3>Using the <code>plot</code> function</h3>
+<p>There are two alternative ways to make a plot of two variables <code>X</code> and <code>Y</code> that are contained in a dataframe called <code>dfr</code> (both are used interchangeably):</p>
+<pre class="r"><code># Option 1: plot of X and Y
+with(dfr, plot(X,Y))
+
+# Option 2: formula interface (Y &#39;as a function of&#39; X)
+plot(Y ~ X, data=dfr)</code></pre>
+<p>The type of plot produced by this basic command, using the generic <code>plot</code> function, depends on the variable type of <code>X</code> and <code>Y</code>. If both are numeric, a simple scatter plot is produced (see Section @ref(finetuning). If <code>Y</code> is numeric but <code>X</code> is a factor, a boxplot is produced (see Section~). If only one argument is provided and it is a data frame with only numeric columns, all possible scatter plots are produced (not further described but see <code>?plot.data.frame</code>). And finally, if both <code>X</code> and <code>Y</code> are factor variables, a mosaic plot is produced (not further described in detail but see Section~ and <code>plot.factor</code>).</p>
+<pre><code>                                                                                                                                                                                     Each of these four options is shown in Fig.~\ref{fig:plotdefault} (code not included).
+                                                                                                                                                                                     
+                                                                                                                                                                                     &lt;div class=&quot;figure&quot;&gt;
+                                                                                                                                                                                     &lt;img src=&quot;base_graphics_files/figure-html/plotdefault-1.png&quot; alt=&quot;Four possible outcomes of a basic call to `plot`, depending on whether the Y and X variables are numeric or factor variables. The term &#39;numeric dataframe&#39; means a dataframe where all columns are numeric.&quot; width=&quot;336&quot; /&gt;&lt;img src=&quot;base_graphics_files/figure-html/plotdefault-2.png&quot; alt=&quot;Four possible outcomes of a basic call to `plot`, depending on whether the Y and X variables are numeric or factor variables. The term &#39;numeric dataframe&#39; means a dataframe where all columns are numeric.&quot; width=&quot;336&quot; /&gt;&lt;img src=&quot;base_graphics_files/figure-html/plotdefault-3.png&quot; alt=&quot;Four possible outcomes of a basic call to `plot`, depending on whether the Y and X variables are numeric or factor variables. The term &#39;numeric dataframe&#39; means a dataframe where all columns are numeric.&quot; width=&quot;336&quot; /&gt;&lt;img src=&quot;base_graphics_files/figure-html/plotdefault-4.png&quot; alt=&quot;Four possible outcomes of a basic call to `plot`, depending on whether the Y and X variables are numeric or factor variables. The term &#39;numeric dataframe&#39; means a dataframe where all columns are numeric.&quot; width=&quot;336&quot; /&gt;
+                                                                                                                                                                                     &lt;p class=&quot;caption&quot;&gt;Four possible outcomes of a basic call to `plot`, depending on whether the Y and X variables are numeric or factor variables. The term &#39;numeric dataframe&#39; means a dataframe where all columns are numeric.&lt;/p&gt;
+                                                                                                                                                                                     &lt;/div&gt;</code></pre>
+</div>
+<div id="barplot" class="section level3">
+<h3>Bar plots</h3>
+<p>While simple barplots are easy in R, advanced ones (multiple panels, groups of bars, error bars) are more difficult. For those of you who are skilled at making complex barplots in some other software package, you may not want to switch to R immediately. Ultimately, though, R has greater flexibility, and it is easier to make sure plots are consistent.</p>
+<p>The following code makes a simple bar plot, using the default settings (Fig. @ref(fig:simplebarplot)):</p>
+<pre class="r"><code>nums &lt;- c(2.1,3.4,3.8,3.9,2.9,5)
+barplot(nums)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/simplebarplot-1.png" alt="Simple bar plot with default settings" width="672" />
+<p class="caption">
+Simple bar plot with default settings
+</p>
+</div>
+<p>Very often, we like standard errors on our bar plots. Unfortunately, this is slightly awkward in basic R.</p>
+<p>The easiest option is to use <code>barplot2</code> in the <code>gplots</code> package, but it provides limited customization of the error bars. Another, more flexible, solution is given in the example below. Here, we use <code>barplot</code> for the bars, and <code>plotCI</code> for the error bars (from the <code>plotrix</code> package). This example also introduces the <code>tapply</code> function to make simple tables, we will return to this in Section @ref(tapply).</p>
+<p>If you want the means and error bars to be computed by the function itself, rather than provide them as in the example below, refer to Section @ref(sciplot).</p>
+<p>The following code produces Fig.~.</p>
+<pre class="r"><code># Read data, if you haven&#39;t already
+data(cereals)
+
+# Gets means and standard deviation of rating by cereal manufacturer:
+ratingManufacturer &lt;- with(cereals, tapply(rating, Manufacturer, FUN=mean))
+ratingManufacturerSD &lt;- with(cereals, tapply(rating, Manufacturer, FUN=sd))
+
+# Make bar plot with error bars. Note that we show means +/- one standard deviation.
+# Read the help function ?plotCI to see what the additional arguments mean (pch, add).
+library(plotrix)
+b &lt;- barplot(ratingManufacturer, col=&quot;white&quot;, width=0.5, space=0.5, ylim=c(0,80))
+plotCI(b, ratingManufacturer, uiw=ratingManufacturerSD, add=TRUE, pch=NA)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/barplot2-1.png" alt="Simple bar plot with error bars (shown are means +/- one standard deviation)." width="672" />
+<p class="caption">
+Simple bar plot with error bars (shown are means +/- one standard deviation).
+</p>
+</div>
+<p>Finally, to make ‘stacked’ bar plots, see the example in Section @ref(piesbox).</p>
+</div>
+<div id="hist" class="section level3">
+<h3>Histograms and curves</h3>
+<p>The <code>hist</code> function by default plots a frequency diagram, and computes the breaks automatically. It is also possible to plot a density function, so that the total area under the bars sums to unity, as in a probability distribution. The latter is useful if you want to add a curve representing a univariate distribution.</p>
+<p>Consider the following example, which plots both a frequency diagram and a density plot for a sample of random numbers from a normal distribution. (See Chapter @ref(basic) for background on the functions <code>dnorm</code> and <code>rnorm</code>.)</p>
+<p>This example uses the <code>par</code> function to change the layout of the plot. We’ll return to this in Section @ref(changelayout).</p>
+<p>This code produces Fig. @ref(fig:histplot1).</p>
+<pre class="r"><code># Some random numbers:
+rannorm &lt;- rnorm(500)
+
+# Sets up two plots side-by-side.
+# The mfrow argument makes one row of plots, and two columns, see ?par.
+par(mfrow=c(1,2))
+
+# A frequency diagram
+hist(rannorm, freq=TRUE, main=&quot;&quot;)
+
+# A density plot with a normal curve
+hist(rannorm, freq=FALSE, main=&quot;&quot;, ylim=c(0,0.4))
+curve(dnorm(x), add=TRUE, col=&quot;blue&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/histplot1-1.png" alt="Two histogram examples for some normally distributed data." width="672" />
+<p class="caption">
+Two histogram examples for some normally distributed data.
+</p>
+</div>
+
+<div class="rmdtry">
+We also introduced the <code>curve</code> function here. It can plot a curve that represents a function of <code>x</code>. For example, try this code yourself : <code>curve(sin(x), from=0, to=2*pi)</code>
+</div>
+
+</div>
+<div id="piesbox" class="section level3">
+<h3>Pie charts</h3>
+<p>The final two basic plotting types are pie charts and box plots. It is recommended you don’t use pie charts for scientific publications, because the human eye is bad at judging relative area, but much better at judging relative lengths. So, barplots are preferred in just about any situation. Take the following example, showing the polls for 12 political parties in the Netherlands.</p>
+<p>Most people will say that the fraction of voters for the smaller parties is exaggerated in the pie chart.</p>
+<p>This code produces Fig. (electionplot).</p>
+<pre class="r"><code># Election poll data
+data(dutchelection)
+
+# A subset for one date only (Note: unlist makes this into a vector)
+percentages &lt;- unlist(dutchelection[6, 2:ncol(dutchelection)])
+
+# Set up two plots side-by-side
+par(mfrow=c(1,2))
+
+# A &#39;stacked&#39; bar plot. 
+# the matrix() bit is necessary here (see ?barplot)
+# Beside=FALSE makes this a stacked barplot.
+barplot(matrix(percentages), beside=FALSE, col=rainbow(12), ylim=c(0,100))
+
+# And a pie chart
+pie(percentages, col=rainbow(12))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/electionplot-1.png" alt="A stacked bar and pie chart for the election poll data." width="672" />
+<p class="caption">
+A stacked bar and pie chart for the election poll data.
+</p>
+</div>
+
+<div class="rmdtry">
+Run the (barplot) code above to generate a stacked barplot. Now, set <code>beside=TRUE</code> and compare the result.
+</div>
+
+<p>What if we want to compare different timepoints to see whether the support for each political party is changing? To produce multiple stacked barplots using the <code>barplot</code> function, we need to convert the way that the data are stored from a dataframe to a matrix. Then, because the <code>barplot</code> function creates each stack in the barplot from the columns of the matrix, we need to transpose the matrix so that the data for different dates are in separate columns and the data for different parties are in separate rows.</p>
+<pre class="r"><code># A subset for the first and last dates
+percentages2 &lt;- dutchelection[c(1, nrow(dutchelection)), -1]
+
+# Convert the resulting dataframe to a matrix
+percentages2 &lt;- as.matrix(percentages2)
+
+# change the rownames to represent the dates at those two timepoints
+rownames(percentages2) &lt;- dutchelection[c(1, nrow(dutchelection)), &#39;Date&#39;]
+
+# A &#39;stacked&#39; bar plot for two timepoints. 
+# the t() bit transposes the party data from columns to rows
+# beside=FALSE makes this a stacked barplot.
+# the xlim argument creates extra space on the right of the plot for the legend
+barplot(t(percentages2), beside=FALSE, col=rainbow(12), ylim=c(0,100), 
+        xlim=c(0, 4), legend=colnames(percentages2))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/electionplotbydate-1.png" alt="A stacked bar chart for the election poll data at two timepoints." width="672" />
+<p class="caption">
+A stacked bar chart for the election poll data at two timepoints.
+</p>
+</div>
+</div>
+<div id="boxplot" class="section level3">
+<h3>Box plots</h3>
+<p>Box plots are convenient for a quick inspection of your data. Consider this example, where we use formula notation to quickly plot means and ranges for the sodium content of cereals by manufacturer.</p>
+<p>This code produces Fig. @ref(fig:simpleboxplot).</p>
+<pre class="r"><code>data(cereals)
+boxplot(sodium ~ Manufacturer, data=cereals, ylab=&quot;Sodium content&quot;, xlab=&quot;Manufacturer&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/simpleboxplot-1.png" alt="A simple box plot for the cereal data." width="672" />
+<p class="caption">
+A simple box plot for the cereal data.
+</p>
+</div>
+</div>
+</div>
+<div id="finetuning" class="section level2">
+<h2>Fine-tuning the formatting of plots</h2>
+<div id="a-quick-example" class="section level3">
+<h3>A quick example</h3>
+<p>We’ll start with an example using the <code>allom</code> data. First, we use the default formatting, and then we change a few aspects of the plot, one at a time. We will explain the settings introduced here in more detail as we go along. This code produces Fig. @ref(fig:allomplot1), a simple scatter plot:</p>
+<pre class="r"><code># Read data
+data(allometry)
+
+# Default scatter plot
+with(allometry, plot(diameter, height, col=species))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/allomplot1-1.png" alt="Simple scatter plot with default settings" width="672" />
+<p class="caption">
+Simple scatter plot with default settings
+</p>
+</div>
+<p>Now let’s make sure the axis ranges start at zero, use a more friendly set of colours, and a different plotting symbol.</p>
+<p>This code produces Fig. @ref(fig:allomplot2). Here, we introduce <code>palette</code>, a handy way of storing colours to be used in a plot. We return to this in the next section.</p>
+<pre class="r"><code>palette(c(&quot;blue&quot;,&quot;red&quot;,&quot;forestgreen&quot;))
+with(allometry, plot(diameter, height, col=species,
+                 pch=15, xlim=c(0,80), ylim=c(0,50)))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/allomplot2-1.png" alt="Simple scatter plot : changed plotting symbol and X and Y axis ranges." width="672" />
+<p class="caption">
+Simple scatter plot : changed plotting symbol and X and Y axis ranges.
+</p>
+</div>
+<p>Notice that we use <code>species</code> (a factor variable) to code the colour of the plotting symbols. More about this later in this section.</p>
+<p>For this figure it is useful to have the zero start exactly in the corner (compare the origin to previous figure.) To do this we use <code>xaxs</code> and <code>yaxs</code>. Let’s also make the X-axis and Y-axis labels larger (with <code>cex.lab</code>) and print nicer labels (with <code>xlab</code> and <code>ylab</code>).</p>
+<p>Finally, we also add a legend (with the <code>legend</code> function.)</p>
+<p>This code produces Fig. @ref(fig:allomplota).</p>
+<pre class="r"><code>par(xaxs=&quot;i&quot;, yaxs=&quot;i&quot;,  cex.lab=1.4)          
+palette(c(&quot;blue&quot;,&quot;red&quot;,&quot;forestgreen&quot;))
+plot(height ~ diameter, col=species, data=allometry, 
+                 pch=15, xlim=c(0,80), ylim=c(0,50),
+                 xlab=&quot;Diameter (cm)&quot;,
+                 ylab=&quot;Height (m)&quot;)
+# Add a legend
+legend(&quot;topleft&quot;, levels(allometry$species), pch=15, col=palette(), title=&quot;Species&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/allomplota-1.png" alt="Simple scatter plot : many settings customized." width="672" />
+<p class="caption">
+Simple scatter plot : many settings customized.
+</p>
+</div>
+</div>
+<div id="colours" class="section level3">
+<h3>Customizing and choosing colours</h3>
+<p>You can change the colour of any part of your figure, including the symbols, axes, labels, and background. R has many built-in colours, as well as a number of ways to generate your own set of colours.</p>
+<p>As we saw in the example above, it is quite handy to store a set of nice colours in the <code>palette</code> function. Once you have stored these colours they are automatically used when you colour a plot by a factor. As the default set of colours in R is very ugly, do choose your own set of colours before plotting. You can also choose specific colors from your palette. The following example would plot symbols using the 3rd colour in your palette (resulting graph not shown).</p>
+<pre class="r"><code>plot(x,y, col=3)</code></pre>
+<p>To pick one or more of the 657 built-in colours in R, this website is very useful : <a href="http://research.stowers-institute.org/efg/R/colour/Chart/" class="uri">http://research.stowers-institute.org/efg/R/colour/Chart/</a>, <em>especially</em> the link to a PDF at the top, which lists the colours by name. You can also use the built-in <code>demo</code> function to show the colours,</p>
+<pre class="r"><code># Follow instructions in the console when running this command.
+demo(colors)</code></pre>
+<p>The following is an example <code>palette</code>, with some hand-picked colours. It also shows one way to plot your current palette.</p>
+<pre class="r"><code>palette(c(&quot;blue2&quot;,&quot;goldenrod1&quot;,&quot;firebrick2&quot;,&quot;chartreuse4&quot;,
+&quot;deepskyblue1&quot;,&quot;darkorange1&quot;,&quot;darkorchid3&quot;,&quot;darkgrey&quot;,
+&quot;mediumpurple1&quot;,&quot;orangered2&quot;,&quot;chocolate&quot;,&quot;burlywood3&quot;,     
+&quot;goldenrod4&quot;,&quot;darkolivegreen2&quot;,&quot;palevioletred3&quot;, 
+&quot;darkseagreen3&quot;,&quot;sandybrown&quot;,&quot;tan&quot;,            
+&quot;gold&quot;,&quot;violetred4&quot;,&quot;darkgreen&quot;))
+
+# A simple graph showing the colours.
+par(cex.axis=0.8, las=3)
+n &lt;- length(palette())
+barplot(rep(1,n),
+        col=1:n,
+        names.arg=1:n,axes=FALSE)</code></pre>
+<p><img src="base_graphics_files/figure-html/unnamed-chunk-8-1.png" width="0.8\linewidth" /></p>
+<div id="ranges-of-colours" class="section level4">
+<h4>Ranges of colours</h4>
+<p>R also has a few built-in options to set a range of colours, for example from light-grey to dark-grey, or colours of the rainbow.</p>
+<p>A very useful function is <code>colorRampPalette</code>, see its help page and the following examples:</p>
+<pre class="r"><code># Generate a palette function, with colours in between red and blue:
+redbluefun &lt;- colorRampPalette(c(&quot;red&quot;,&quot;blue&quot;))
+
+# The result is a function that returns any number of colours interpolated
+# between red and blue.
+# For example, set the palette to 10 colouts ranging from red to blue:
+palette(redbluefun(10))</code></pre>
+<p>Other functions that are useful are <code>rainbow</code>, <code>heat.colors</code>, <code>grey</code>, and so on (see help page for <code>rainbow</code> for a few more). The <code>RColorBrewer</code> package also contains the <code>brewer.pal</code> function, which helps to generate palettes that are suitable for different types of graphics requiring scales of light and dark colours or highly contrasting colours. It even has functionality for selecting colour schemes that are ‘colour-blind friendly’, for example:</p>
+<p><img src="base_graphics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+
+<div class="rmdtry">
+Look at <code>?grey</code> and figure out how to generate a palette of 50 shades of grey.
+</div>
+
+<p>Here is an example where it might be handy to use a range of colours. We use the <code>hfemet2008</code> data, which includes weather data for a weather station near Sydney. What is the relationship between air temperature (<code>Tair</code>), vapour pressure deficit (<code>VPD</code>) and relative humidity? Here is a nice way to visualize this relationship between three variables.</p>
+<p>This code produces Fig. @ref(fig:tairvpdplot). Here we use also the <code>cut</code> function, which was introduced in Section @ref(workingfactors).</p>
+<pre class="r"><code># Read data.
+data(hfemet2008)
+
+# Make a factor variable with 10 levels of relative humidity.
+hfemet2008$RHbin &lt;- cut(hfemet2008$RH, breaks=10)
+
+# Look at the levels: they are from low RH to high RH
+levels(hfemet2008$RHbin)</code></pre>
+<pre><code>##  [1] &quot;(14.8,23.1]&quot; &quot;(23.1,31.4]&quot; &quot;(31.4,39.7]&quot; &quot;(39.7,48]&quot;   &quot;(48,56.2]&quot;  
+##  [6] &quot;(56.2,64.5]&quot; &quot;(64.5,72.8]&quot; &quot;(72.8,81]&quot;   &quot;(81,89.3]&quot;   &quot;(89.3,97.7]&quot;</code></pre>
+<pre class="r"><code># Set colours correspondingly, from red to blue.
+blueredfun &lt;- colorRampPalette(c(&quot;red&quot;,&quot;blue&quot;))
+palette(blueredfun(10))
+
+# Plot VPD and Tair, with the colour of the symbol varying by RH.
+# Also set small plotting symbols.
+par(cex.lab=1.3)
+with(hfemet2008, plot(Tair, VPD, pch=19, cex=0.5, col=RHbin))
+
+# Finally, add a legend:
+legend(&quot;topleft&quot;, levels(hfemet2008$RHbin), fill=palette(), title=&quot;RH&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/tairvpdplot-1.png" alt="Relationship between air temperature, vapour pressure deficit and relative humidity at the HFE." width="672" />
+<p class="caption">
+Relationship between air temperature, vapour pressure deficit and relative humidity at the HFE.
+</p>
+</div>
+</div>
+<div id="semi-transparent-colours" class="section level4">
+<h4>Semi-transparent colours</h4>
+<p>If your plot contains a lot of data points, a semi-transparent colour can be useful, so you can see points that would otherwise be obscured.</p>
+<p>This example makes Fig. @ref(fig:alphafig), using the <code>scales</code> package.</p>
+<pre class="r"><code># Load the scales package for the &#39;alpha&#39; function.
+library(scales)
+
+# Make a large dataset with random numbers
+x &lt;- rnorm(1000)
+y1 &lt;- x + rnorm(1000, sd=0.5)
+y2 &lt;- -x + rnorm(1000, sd=0.6)
+
+# Use alpha() like this to make a colour transparent,
+# the numeric value indicates how transparent the result should be 
+# (lower values = more transparent)
+plot(x,y1,pch=19,col=alpha(&quot;blue&quot;,0.3))
+points(x,y2, pch=19, col=alpha(&quot;red&quot;,0.3))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/alphafig-1.png" alt="A plot of some random numbers, using a semi-transparent colour." width="672" />
+<p class="caption">
+A plot of some random numbers, using a semi-transparent colour.
+</p>
+</div>
+</div>
+</div>
+<div id="customizing-symbols-and-lines" class="section level3">
+<h3>Customizing symbols and lines</h3>
+<p>Using the <code>plot</code> function, you can make both scatter plots and line plots, and combinations of both. Line types (solid, dashed, thickness, etc.) and symbols (circles, squares, etc.) can be customized.</p>
+<p>Consider these options when plotting a vector of observations (makes Fig. @ref(fig:typeexamples)).</p>
+<pre class="r"><code>X &lt;- 1:8
+Y &lt;- c(4,5.5,6.1,5.2,3.1,4,2.1,0)
+par(mfrow=c(3,2))
+plot(X,Y, type=&#39;p&#39;, main=&quot;type=&#39;p&#39;&quot;)
+plot(X,Y, type=&#39;o&#39;, main=&quot;type=&#39;o&#39;&quot;)
+plot(X,Y, type=&#39;b&#39;, main=&quot;type=&#39;b&#39;&quot;)
+plot(X,Y, type=&#39;l&#39;, main=&quot;type=&#39;l&#39;&quot;)
+plot(X,Y, type=&#39;h&#39;, main=&quot;type=&#39;h&#39;&quot;)
+plot(X,Y, type=&#39;s&#39;, main=&quot;type=&#39;s&#39;&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/typeexamples-1.png" alt="Four options for the plotting type (with type=)." width="672" />
+<p class="caption">
+Four options for the plotting type (with type=).
+</p>
+</div>
+<p>For symbols, use the <code>pch</code> argument in <code>plot</code>. These are most quickly set with a number, see the table on the help page <code>?points</code>.</p>
+<p>A few examples with the <code>pch</code> argument are shown here. This code produces Fig. @ref(fig:pchexamples).</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+
+# Open triangles:
+with(allometry, plot(diameter, height, pch=2, col=&quot;red&quot;))
+
+# Red solid squares:
+with(allometry, plot(diameter, height, pch=15, col=&quot;red&quot;))
+
+# Filled circles, with a black edge, and a grey fill colour:
+with(allometry, plot(diameter, height, pch=21, bg=&quot;grey&quot;, col=&quot;black&quot;))
+
+# Custom plotting symbol (any text works - but only one character)
+with(allometry, plot(diameter, height, pch=&quot;W&quot;))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/pchexamples-1.png" alt="Four options for the plotting symbols (with pch)." width="672" />
+<p class="caption">
+Four options for the plotting symbols (with pch).
+</p>
+</div>
+<div id="setting-symbol-type-by-a-factor-level" class="section level4">
+<h4>Setting symbol type by a factor level</h4>
+<p>Finally, it gets more interesting if we vary the plotting symbol by a factor, like we did with colours in the previous section. Look at this simple example that extends Fig. @ref(fig:allomplot2).</p>
+<p>This code produces Fig.~@ref(allomplot4). Note how we set up a vector of plotting symbols (1,2 and 15), and use the factor <code>species</code> to index it. To recall indexing, read Section @ref(vectorindexing).</p>
+<pre class="r"><code>palette(c(&quot;blue&quot;,&quot;red&quot;,&quot;forestgreen&quot;))
+with(allometry, plot(diameter, height, 
+                 col=species,
+                 pch=c(1,2,15)[species], 
+                 xlim=c(0,80), ylim=c(0,50)))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/allomplot4-1.png" alt="Scatter plot : vary colour and symbol by species" width="672" />
+<p class="caption">
+Scatter plot : vary colour and symbol by species
+</p>
+</div>
+
+<div class="rmdtry">
+Modify the code above so that the three species are plotted in three different shades of <code>grey</code>, with filled circles. Also add a <code>legend</code>, and increase the size of the axis labels.
+</div>
+
+</div>
+</div>
+<div id="expressions" class="section level3">
+<h3>Formatting units, equations and special symbols</h3>
+<p>In scientific publications we frequently need sub- and superscripts in our axis labels (as in <span class="math inline">\(m^{-2}\)</span>). Luckily, R has a flexible way of specifying all sorts of expressions in axis labels, titles, and legend texts. We have included a few examples here, and a full reference is given in the help page <code>?plotmath</code>. It is especially helpful to run <code>demo(plotmath)</code>. Recall that in RStudio, you can look at all your previous plots using the arrows near the top-left of the figures.</p>
+<pre class="r"><code>expression(Infected~area~(cm^2))</code></pre>
+<p><img src="base_graphics_files/figure-html/unnamed-chunk-16-1.png" width="576" /></p>
+<pre class="r"><code>expression(Photosynthesis~~(mu*mol~m^-2~s^-1))</code></pre>
+<p><img src="base_graphics_files/figure-html/unnamed-chunk-18-1.png" width="576" /></p>
+<pre class="r"><code>expression(Temperature~~(degree*C))</code></pre>
+<p><img src="base_graphics_files/figure-html/unnamed-chunk-20-1.png" width="576" /></p>
+<div id="special-text-symbols" class="section level4">
+<h4>Special text symbols</h4>
+<p>If you need a very special character – one that is not a Greek letter or a subscript, or is otherwise covered by <code>plotmath</code> – anything can be plotted if you know the Unicode number (<a href="http://en.wikipedia.org/wiki/Unicode_symbols" class="uri">http://en.wikipedia.org/wiki/Unicode_symbols</a>). You can plot those with this short example (results not shown):</p>
+<pre><code>expression(Permille~&quot;\u2030&quot;)</code></pre>
+<p>The four digit (or letter) Unicode follows ‘u’.</p>
+</div>
+</div>
+<div id="resetting-the-graphical-parameters" class="section level3">
+<h3>Resetting the graphical parameters</h3>
+<p>Every time you use <code>par</code> to set some graphical parameter, it keeps this setting for all subsequent plots. In RStudio, the following command can be used to reset <code>par</code> to the default values. <em>Warning:</em> this will delete all the plots you have saved in the plot history.</p>
+<pre class="r"><code>dev.off()</code></pre>
+</div>
+<div id="changefont" class="section level3">
+<h3>Changing the font</h3>
+<p>There are (only) three basic built-in fonts in R, but you can load many more with the help of <code>windowsFonts</code> (on Windows only). The fonts can be accessed with the <code>family</code> argument. You can set this argument in <code>plot</code> (for axis titles), <code>text</code> (for adding text to plots), as well as <code>par</code> (to change the font permanently for all text).</p>
+<p>Note that in <code>?par</code>, the <code>font</code> argument refers to “italic”, “bold”, and so on (see below).</p>
+<pre class="r"><code># A font with a serif (looks a bit like Times New Roman)
+plot(x,y, xlab=&quot;some label&quot;, family=&quot;serif&quot;)</code></pre>
+<p>Using <code>windowsFonts</code>, you can use <em>any</em> font that is loaded in Windows (that is, all the fonts you can see in MS Word). <em>Note</em>: this does not work when making a PDF. For more flexibility, consider using the <code>showtext</code> package.</p>
+<pre class="r"><code># Define font(s)
+windowsFonts(courier=windowsFont(&quot;Courier New&quot;),
+             verdana=windowsFont(&quot;Verdana&quot;))
+
+# Then you can use,
+plot(x,y, xlab=&quot;some label&quot;, family=&quot;courier&quot;)</code></pre>
+
+<div class="rmdreading">
+If you are interested in using a wider range of fonts, the <code>showtext</code> package can help you out. There is a description of what <code>showtext</code> does from its creator, Yixuan Qiu, at <a href="https://www.r-project.org/nosvn/pandoc/showtext.html" class="uri">https://www.r-project.org/nosvn/pandoc/showtext.html</a>. Yixuan has also posted a helpful guide to using <code>showtext</code> in markdown documents on his blog: <a href="http://statr.me/2014/07/showtext-with-knitr/" class="uri">http://statr.me/2014/07/showtext-with-knitr/</a>.
+</div>
+
+<div id="italic-and-bold" class="section level4">
+<h4>Italic and bold</h4>
+<p>The <code>font</code> argument can be used to set text to normal face (1), bold (2), italic (3) or bold italic (4). Simply use the following code, changing the number as appropriate:</p>
+<pre class="r"><code># A plot with a title in italics
+plot(x,y, main=&quot;Italic text&quot;, font=3)</code></pre>
+</div>
+</div>
+<div id="addingtoplot" class="section level3">
+<h3>Adding elements to a current plot</h3>
+<p>Suppose you have made a plot, and want to add points or lines to the current plot, without opening a new window. For this, we can use the <code>points</code> function (<em>Note:</em> this can also be used to add lines, using the <code>type='l'</code> setting).</p>
+<p>Consider the following example. Instead of plotting all the data at once, we plot the data for one group, and then add the data for each following group using <code>points</code>.</p>
+<p>The following code produces Fig. @ref(fig:addpoints).</p>
+<pre class="r"><code># Read the Dutch election poll data
+data(dutchelection)
+dutchelection$Date &lt;- as.Date(dutchelection$Date)
+
+# Plot the first variable (make sure to set the Y axis range 
+# wide enough for all the other data!)
+plot(VVD ~ Date, data=dutchelection, type=&#39;l&#39;, col=&quot;blue&quot;, ylim=c(0,40),
+     ylab=&quot;Poll result (%)&quot;)
+
+# Then add the rest of the results, one at a time.
+points(PvdA ~ Date, data=dutchelection, type=&#39;l&#39;, col=&quot;red&quot;)
+points(SP ~ Date, data=dutchelection, type=&#39;l&#39;, col=&quot;red&quot;, lty=5)
+points(GL ~ Date, data=dutchelection, type=&#39;l&#39;, col=&quot;forestgreen&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/addpoints-1.png" alt="Adding lines to an existing plot." width="672" />
+<p class="caption">
+Adding lines to an existing plot.
+</p>
+</div>
+<div id="straight-lines-and-text" class="section level4">
+<h4>Straight lines and text</h4>
+<p>To place straight lines on a plot, use the following examples (results not shown). For the <code>abline</code> function, you may use settings like <code>lwd</code> for the thickness of the line, <code>lty</code> for line type (dashed, etc.), and <code>col</code> for colour.</p>
+<p>Using <code>abline</code>, it is also straightforward to add regression lines to a plot, as we will see in Section @ref(simpleregression).</p>
+<pre class="r"><code># Add a vertical line at x=0
+abline(v=0)
+
+# Add a horizontal line at y=50
+abline(h=50)
+
+# Add a line with an intercept of 0 and a slope of 1 
+# (known as a 1:1 line)
+abline(0,1)</code></pre>
+<p>Adding text to a plot is achieved with the <code>text</code> function. Text can also be added to the margin of a plot with <code>mtext</code>. You may also use <code>expression</code> as the text to be added (see Section @ref(expressions)). The drawback of using <code>text</code> is that you need to specify the X,Y coordinates manually. What if you just want a quick label on the top left of your figure?</p>
+<p>Try this:</p>
+<pre class="r"><code># Add a bold label &#39;A&#39; to an existing plot:
+legend(&quot;topleft&quot;, expression(bold(A)), bty=&#39;n&#39;, inset=0.01)</code></pre>
+</div>
+</div>
+<div id="changelayout" class="section level3">
+<h3>Changing the layout</h3>
+<p>We have already seen several examples that combine multiple figures in one plot, using <code>par(mfrow = c(*rows*, *columns*))</code>. Here is another example, which generates the plot in Fig. @ref(fig:mfrowplot). See <code>?par</code> for more details.</p>
+<pre class="r"><code># Set up 2 rows of plots, and 2 columns using &#39;mfrow&#39;:
+par(mfrow=c(2,2), mar=c(4.1,4.1,0.1,0.1))
+plot(leafarea~height, data=allometry, col=species, xlab=&#39;&#39;, pch=15)
+plot(leafarea~diameter, data=allometry, col=species, xlab=&#39;&#39;,ylab=&#39;&#39;,pch=15)
+plot(branchmass~height, data=allometry, col=species, pch=15)
+plot(branchmass~diameter, data=allometry, col=species, ylab=&#39;&#39;,pch=15)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/mfrowplot-1.png" alt="Multiple plots within a single plot window." width="672" />
+<p class="caption">
+Multiple plots within a single plot window.
+</p>
+</div>
+<p>This is a relatively simple way to change the layout of plots. We can generate more complex layouts using the <code>layout</code> function. The main argument is a matrix indicating the locations of individual plots in space. Using the code below (resulting plot not shown), the first plot will fill the the left side of the plot window, while the next three calls to plot will fill each section on the right side of the window in the order that they are labelled. Further arguments allow for varying the heights and widths of boxes within the layout.</p>
+<pre class="r"><code>l &lt;- layout(matrix(c(1,1,1,2,3,4),nrow=3,ncol=2,byrow=F))
+layout.show(l)</code></pre>
+
+<div class="rmdtry">
+Run the code from the above example. Then, run only the first bit to set up a fresh layout. Then make a series of plots, and see how they fill the layout (<em>Hint:</em> you can just run <code>plot(1)</code> several times in a row to see what happens).
+</div>
+
+</div>
+<div id="paroptions" class="section level3">
+<h3>Finding out about more options</h3>
+<p>To get the most out of plotting in R, you need a working knowledge of <code>par</code> options, which are used to set graphical parameters. We’ve used some of these already. Here is a summary of a few of the most useful settings, including a few new ones:</p>
+<pre class="r"><code>library(tibble)
+tab &lt;- tribble(~`Graphical parameter`, ~Description,
+               &quot;`pch`&quot;, &quot;Sets the type of symbols used in the plot; see `points()` for a list of options.&quot;,
+               &quot;`type`&quot;, &quot;Sets whether to plot points, lines, both, or something else (see `?plot`.) &quot;,
+               &quot;`col`&quot;, &quot;Sets the colour of plotting symbols and lines.&quot;,
+               &quot;`lty`&quot;, &quot;Sets the line type (1=solid, 2=dashed, etc.)&quot;,
+               &quot;`lwd`&quot;, &quot;Sets the line width&quot;,
+               &quot;`cex`&quot;, &quot;Controls the size of text and points in the plot area. Short for &#39;character expansion&#39;, it acts as a multiplier of the default value.&quot;,
+               &quot;`cex.axis, cex.lab`&quot;, &quot;Character expansion of axes and the labels.&quot;,
+               &quot;`cex.main`&quot;, &quot;Character expansion of the title of the plot.&quot;,
+               &quot;`family`&quot;, &quot;Sets the font for labels and titles. Varies by system, but &#39;serif&#39;,&#39;sans&#39; and &#39;mono&#39; should always work.&quot;,
+               &quot;`bty`&quot;, &quot;Sets the type of box, if any, to be drawn around the plot. Use `bty=&#39;n&#39;` for none. &quot;,
+               &quot;`las`&quot;, &quot;Sets the orientation of the text labels relative to the axis&quot;,
+               &quot;`mar`&quot;, &quot;Sets the number of lines in each margin, in the order bottom, left, top, right.&quot;,
+               &quot;`xaxs, yaxs`&quot;, &quot;Preset functions for calculating axis intervals.&quot;,
+               &quot;`xaxp, yaxp`&quot;, &quot;Sets the coordinates for tick marks on each axis.&quot;,
+               &quot;`xaxt, yaxt`&quot;, &quot;Sets axis type, but can also suppress plotting axes by specifying &#39;n&#39;.&quot;)
+               
+knitr::kable(tab)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Graphical parameter</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>pch</code></td>
+<td align="left">Sets the type of symbols used in the plot; see <code>points()</code> for a list of options.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>type</code></td>
+<td align="left">Sets whether to plot points, lines, both, or something else (see <code>?plot</code>.)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>col</code></td>
+<td align="left">Sets the colour of plotting symbols and lines.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>lty</code></td>
+<td align="left">Sets the line type (1=solid, 2=dashed, etc.)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>lwd</code></td>
+<td align="left">Sets the line width</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cex</code></td>
+<td align="left">Controls the size of text and points in the plot area. Short for ‘character expansion’, it acts as a multiplier of the default value.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cex.axis, cex.lab</code></td>
+<td align="left">Character expansion of axes and the labels.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cex.main</code></td>
+<td align="left">Character expansion of the title of the plot.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>family</code></td>
+<td align="left">Sets the font for labels and titles. Varies by system, but ‘serif’,‘sans’ and ‘mono’ should always work.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>bty</code></td>
+<td align="left">Sets the type of box, if any, to be drawn around the plot. Use <code>bty='n'</code> for none.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>las</code></td>
+<td align="left">Sets the orientation of the text labels relative to the axis</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mar</code></td>
+<td align="left">Sets the number of lines in each margin, in the order bottom, left, top, right.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xaxs, yaxs</code></td>
+<td align="left">Preset functions for calculating axis intervals.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>xaxp, yaxp</code></td>
+<td align="left">Sets the coordinates for tick marks on each axis.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xaxt, yaxt</code></td>
+<td align="left">Sets axis type, but can also suppress plotting axes by specifying ‘n’.</td>
+</tr>
+</tbody>
+</table>
+<p>You can choose to set an option with the <code>par</code> function, which will apply that setting to any new plots (until you change it again). Alternatively, you can use any of these settings when calling <code>plot</code> or <code>points</code> to change only the current plot. See this example (output not shown try this yourself).</p>
+<pre class="r"><code># Two ways of setting the size of the X and Y axis labels:
+# 1.
+plot(1:10, 1:10, cex.lab=1.2)
+
+# 2.
+par(cex.lab=2)
+plot(1:10,1:10)
+
+# For the latter, the setting is maintained for the next plot as well.
+plot(1:3, 1:3)</code></pre>
+
+<div class="rmdreading">
+Keeping on top of all the options associated with <code>par</code> can be difficult. The <code>?par</code> help page has been dramatically improved in recent years, but can still be a bit too much information. It’s very helpful to have some quick references at your fingertips. Take a look <a href="http://www.statmethods.net/advgraphs/parameters.html" class="uri">http://www.statmethods.net/advgraphs/parameters.html</a> from the Quick-R website, and Gaston Sanchez’s handy cheat sheet at <a href="http://gastonsanchez.com/resources/2015/09/22/R-cheat-sheet-graphical-parameters/" class="uri">http://gastonsanchez.com/resources/2015/09/22/R-cheat-sheet-graphical-parameters/</a>.
+</div>
+
+</div>
+</div>
+<div id="formatting-examples" class="section level2">
+<h2>Formatting examples</h2>
+<div id="vesselexample" class="section level3">
+<h3>Vessel data</h3>
+<p>This example will use a lot of what we learned in this section to fine-tune the formatting of a plot. We will use the <code>vessel</code> data. In this dataset, the expectation was that xylem vessel diameters are smaller in the top of the tree than at the bottom. Rather than going straight to statistical analyses (ANOVAs and so on) it is wise to visualize the data first.</p>
+<p>The normal workflow for optimizing your plots is to first use the default settings to make sure you are plotting the correct data, and then fine-tuning one aspect of the plot at a time. This can take a while, but the end result should be worth it. Here we show a default histogram, and the fine-tuned version after some work.</p>
+<p>The following code produces Fig. @ref(vesselhist1).</p>
+<pre class="r"><code># Read vessel data, and make two datasets (one for &#39;base&#39; data, one for &#39;apex&#39; data).
+data(vessel)
+vesselBase &lt;- subset(vessel, position==&quot;base&quot;)
+vesselApex &lt;- subset(vessel, position==&quot;apex&quot;)
+
+# Set up two figures next to each other:
+par(mfrow=c(1,2))
+
+# Simple histograms, default settings.
+hist(vesselBase$vesseldiam)
+hist(vesselApex$vesseldiam)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/vesselhist1-1.png" alt="Two simple default histograms" width="672" />
+<p class="caption">
+Two simple default histograms
+</p>
+</div>
+<p>Next, we make the two histograms again, but customize the settings to produce a high quality plot. Try to figure out yourself what the options mean by inspecting the help files <code>?hist</code>, and <code>?par</code>.</p>
+<p>This code produces Fig. @ref(fig:vesselhist2). (To run this code, make sure to read the vessel data first, as shown in the previous example).</p>
+<pre class="r"><code># Fine tune formatting with par()
+par(mfrow=c(1,2), mar=c(5,5,4,1), cex.lab=1.3, xaxs=&quot;i&quot;, yaxs=&quot;i&quot;)
+
+# First panel
+hist(vesselBase$vesseldiam, 
+     main=&quot;Base&quot;,
+     col=&quot;darkgrey&quot;,
+     xlim=c(0,160), breaks=seq(0,160,by=10),
+     xlab=expression(Vessel~diameter~~(mu*m)),
+     ylab=&quot;Number of vessels&quot;)
+
+# Second panel
+hist(vesselApex$vesseldiam, 
+     main=&quot;Apex&quot;,
+     col=&quot;lightgrey&quot;,
+     xlim=c(0,160), breaks=seq(0,160,by=10),
+     xlab=expression(Vessel~diameter~~(mu*m)),
+     ylab=&quot;Number of vessels&quot;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/vesselhist2-1.png" alt="Two customized histograms" width="672" />
+<p class="caption">
+Two customized histograms
+</p>
+</div>
+</div>
+<div id="weather-data" class="section level3">
+<h3>Weather data</h3>
+<p>Suppose you want to plot more than one variable in a plot, but the units (or ranges) are very different. So, you decide to use two axes. Let’s look at an example. For more information on how to deal with the date-time class, see Section @ref(datetime).</p>
+<p>This code produces Fig. @ref(fig:multaxes).</p>
+<pre class="r"><code># Read the hfemet data. Avoid conversion to factors.
+data(hfemet2008)
+
+# Convert to a proper DateTime class:
+library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>hfemet2008$DateTime &lt;- mdy_hm(hfemet2008$DateTime)
+
+# Add the Date :
+hfemet2008$Date &lt;- as.Date(hfemet2008$DateTime)
+
+# Select one day (a cloudy day in June).
+hfemetsubs &lt;- subset(hfemet2008, Date==as.Date(&quot;2008-6-1&quot;))
+
+# Plot Air temperature and PAR (radiation) in one plot. 
+# First we make a &#39;vanilla&#39; plot with the default formatting.
+with(hfemetsubs, plot(DateTime, Tair, type=&#39;l&#39;))
+par(new=TRUE)
+with(hfemetsubs, plot(DateTime, PAR, type=&#39;l&#39;, col=&quot;red&quot;,
+                      axes=FALSE, ann=FALSE))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/multaxes-1.png" alt="A default plot with two axes" width="672" />
+<p class="caption">
+A default plot with two axes
+</p>
+</div>
+<pre class="r"><code># The key here is to use par(new=TRUE), it produces the next 
+# plot right on top of the old one.</code></pre>
+<p>Next, we make the same plot again but with better formatting. Try to figure out what everything means by inspecting the help pages <code>?par</code>, <code>?legend</code>, and <code>?mtext</code>, or by changing the parameters yourself, one at a time.</p>
+<p>This code produces Fig. @ref(fig:multaxesbetter).</p>
+<pre class="r"><code>par(mar=c(5,5,2,5), cex.lab=1.2, cex.axis=0.9)
+with(hfemetsubs, plot(DateTime, Tair, type=&#39;l&#39;,
+                      ylim=c(0,20), lwd=2, col=&quot;blue&quot;,
+                      xlab=&quot;Time&quot;,
+                      ylab=expression(T[air]~~(&quot;&quot;^&quot;o&quot;*C))))
+par(new=TRUE)
+with(hfemetsubs, plot(DateTime, PAR, type=&#39;l&#39;, col=&quot;red&quot;,
+                      lwd=2,
+                      ylim=c(0,1000),
+                      axes=FALSE, ann=FALSE))
+axis(4)
+mtext(expression(PAR~~(mu*mol~m^-2~s^-1)), side=4, line=3, cex=1.2)
+legend(&quot;topleft&quot;, c(expression(T[air]),&quot;PAR&quot;), lwd=2, col=c(&quot;blue&quot;,&quot;red&quot;),
+       bty=&#39;n&#39;)</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/multaxesbetter-1.png" alt="A prettified plot with two axes" width="672" />
+<p class="caption">
+A prettified plot with two axes
+</p>
+</div>
+</div>
+</div>
+<div id="specialplots" class="section level2">
+<h2>Special plots</h2>
+<p>In this section, we show some examples of special plots that might be useful. There are also a large number of packages that specialize in special plot types, take a look at the <code>plotrix</code> and <code>gplots</code> packages, for example.</p>
+<div id="symbolplot" class="section level3">
+<h3>Scatter plot with varying symbol sizes</h3>
+<p>The <code>symbols</code> function is an easy way to pack more information in to a scatter plot, by providing a way to scale the size of the plotting symbols to another variable in the dataframe. Consider the following example:</p>
+<p>This code produces Fig. @ref(fig:symplot).</p>
+<pre class="r"><code># Read data
+data(cereals)
+
+# Choose colours
+# Find the order of factor levels, so that we can assign colours in the same order
+levels(cereals$Cold.or.Hot)</code></pre>
+<pre><code>## [1] &quot;C&quot; &quot;H&quot;</code></pre>
+<pre class="r"><code># We choose blue for cold, red for hot
+palette(c(&quot;blue&quot;,&quot;red&quot;))
+
+# Make the plot
+with(cereals, symbols(fiber, potass, circles=fat, inches=0.2, bg=as.factor(Cold.or.Hot),
+                     xlab=&quot;Fiber content&quot;, ylab=&quot;Potassium content&quot;))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/symplot-1.png" alt="Cereal data with symbols size as a function of fat content and colour as function of whether the cereal is served hot (red) or cold (blue)." width="672" />
+<p class="caption">
+Cereal data with symbols size as a function of fat content and colour as function of whether the cereal is served hot (red) or cold (blue).
+</p>
+</div>
+</div>
+<div id="sciplot" class="section level3">
+<h3>Bar plots of means with confidence intervals</h3>
+<p>A very common figure in publications is to show group means with confidence intervals, an ideal companion to the output of an ANOVA analysis. Unfortunately, it is somewhat of a pain to produce these in R, but the <code>sciplot</code> package has made this very easy to do, with the <code>bargraph.CI</code> function.</p>
+<p>Let’s look at an example using the pupae data.</p>
+<p>This code produces Fig. @ref(fig:pupaebars).</p>
+<pre class="r"><code># Make sure to first install the sciplot package.
+library(sciplot)
+
+# Read the data, if you haven&#39;t already
+data(pupae)
+
+# A fairly standard plot. See ?bargraph.CI to customize many settings.
+with(pupae, 
+     bargraph.CI(T_treatment, Frass, CO2_treatment, legend=TRUE, ylim=c(0,2.5)))</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/pupaebars-1.png" alt="Mean frass by temperature and CO2 treatment made with bargraph.CI()" width="672" />
+<p class="caption">
+Mean frass by temperature and CO2 treatment made with bargraph.CI()
+</p>
+</div>
+</div>
+<div id="log-log-axes" class="section level3">
+<h3>Log-log axes</h3>
+<p>When you make a plot on a logarithmic scale, R does not produce nice axis labels. One option is to use the <code>magicaxis</code> package, which magically makes pretty axes for log-log plots. Consider this example, which makes Fig. @ref(fig:magicaxis).</p>
+<pre class="r"><code># Allometry data
+data(allometry)
+
+# Magic axis package
+library(magicaxis)
+
+# Set up some graphical parameters, like axis label size.
+par(cex.lab=1.2)
+
+# Log-log plot of branch mass versus diameter
+# Here, we set axes=FALSE to suppress the axes
+with(allometry, plot(log10(diameter), log10(branchmass),
+                 xlim=log10(c(1,100)),
+                 ylim=log10(c(1,1100)),
+                 pch=21, bg=&quot;lightgrey&quot;,
+                 xlab=&quot;Diameter (cm)&quot;, ylab=&quot;Branch mass (kg)&quot;,
+                 axes=FALSE))
+
+# And then we add axes.
+# unlog=&#39;xy&#39; will make sure the labels are shown in the original scale,
+# and we want axes on sides 1 (X) and 2 (Y)
+magaxis(unlog=&#39;xy&#39;, side=c(1,2))
+
+# To be complete, we will add a regression line,
+# but only to cover the range of the data.
+library(plotrix)
+ablineclip(lm(log10(branchmass) ~ log10(diameter), data=allometry),
+           x1=min(log10(allometry$diameter)),
+           x2=max(log10(allometry$diameter)))
+
+# And add a box
+box()</code></pre>
+<div class="figure">
+<img src="base_graphics_files/figure-html/magicaxis-1.png" alt="Branch mass versus tree diameter on a log-log scale. The axes were produced with the magicaxis package." width="672" />
+<p class="caption">
+Branch mass versus tree diameter on a log-log scale. The axes were produced with the magicaxis package.
+</p>
+</div>
+</div>
+</div>
+<div id="exportfigures" class="section level2">
+<h2>Exporting figures</h2>
+<p>There is a confusing number of ways to export figures to other formats, to include them in Word documents, print them, or finalize formatting for submission to a journal. Unfortunately, there is no one perfect format for every application. One convenient workflow is to use R markdown, as discussed in Chapter @ref(reporting). This allows you to embed figures directly into Word documents or PDF files. It also allows you to re-create the figures as needed when you update your analysis or data.</p>
+<div id="saving-figures" class="section level3">
+<h3>Saving figures</h3>
+<p>You can save figures using the ‘Export’ button (as pointed out in Section @ref(rstudioplot)). A better way, though, is to make exporting your figures part of your script. For this purpose, you can use the <code>dev.copy2</code> type functions.</p>
+<p>In this example, we make both a PDF and EPS of a figure. Here, we open up a plotting window (of a specified size, in this case 4 by 4 inches), make the plot, and save the output to an EPS and a PDF file.</p>
+<pre class="r"><code>windows(4,4)
+par(mar=c(5,5,2,2))
+plot(x,y)
+dev.copy2pdf(file=&quot;Figure1.pdf&quot;)
+dev.copy2eps(file=&quot;Figure1.eps&quot;)</code></pre>
+</div>
+<div id="inserting-figures-in-word-or-powerpoint" class="section level3">
+<h3>Inserting figures in Word or Powerpoint</h3>
+<p>Copy and pasting figures into Word tends to result in a loss of quality. A better approach is to save files as PDFs and submit those with your manuscript. (And better yet, use markdown to incorporate your text, code and figures into a single PDF!)</p>
+<p>If you do need to insert figures into Powerpoint, the easiest and safest way to do this is to copy-paste the figure straight into Powerpoint. In RStudio, follow these steps:</p>
+
+<p>Then, in Powerpoint, paste (Ctrl-V).</p>
+</div>
+<div id="sharing-figures" class="section level3">
+<h3>Sharing figures</h3>
+<p>When sharing a figure with someone by email or another electronic method, PDF format is always preferred, because the quality of the figure in PDF is optimal. This is the case for viewing the plot on screen, as well as printed. See the previous section on how to generate a PDF of a figure.</p>
+</div>
+<div id="plots-with-many-points-or-lines" class="section level3">
+<h3>Plots with many points or lines</h3>
+<p>When the above two options give you excessively large file sizes (for example, maps, or figures with tens of thousands of symbols or line pieces), consider converting the figure to a ‘bitmap’ type, such as <code>jpeg</code>, <code>png</code> or <code>tiff</code>. Care must be taken that you use a high enough resolution to allow a decent print quality.</p>
+<p>To make a fairly large <code>.png</code>, do:</p>
+<pre class="r"><code># First make a plot..
+plot(1)
+
+# Example from ?dev.print
+# Make a large PNG file of the current plot.
+dev.print(png, file = &quot;myplot.png&quot;, width = 1024, height = 768)</code></pre>
+<p>The main drawback of this type of plot is that the character sizes, symbol sizes and so on do not necessarily look like those on your screen. You will have to experiment, usually by making the figure a few different times, to find the right <code>par</code> settings for each type of output.</p>
+<p>In practice, it may be quicker and safer to make a PDF first, and then convert the PDF to a tiff file with another software package (for instance, Adobe Illustrator).</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

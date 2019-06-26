@@ -1,0 +1,121 @@
+---
+title: "Olie Productie"
+author: "Remko"
+date: "26/06/2019"
+output:
+  html_document:
+    theme: readable
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(dplyr)
+library(lgrdata)
+library(tibble)
+library(pastecs)
+library(ggplot2)
+library(ggthemes)
+library(car)
+
+# Om output mooi te maken:
+library(pander)   # pander()
+library(knitr)    # kable()
+```
+
+```{r, echo = FALSE}
+library(lgrdata)
+data(oil)
+```
+
+
+<hr>
+
+
+## Simpele statistiek
+
+
+Gewoon tekst schrijven! Hier komt een statistisch tabelletje.
+Hier kun je ook **bold** tekst maken, en ook *italic*.
+
+- Lijstje item 1
+- item 2
+- en nog meer
+
+```{r}
+library(pastecs)
+out <- stat.desc(oil$production)
+
+out <- signif(out, 3)
+
+kable(out, col.names= "Statistiek")
+```
+
+## Top producenten
+
+
+```{r}
+
+library(dplyr)
+library(tibble)
+abb_key <- tribble(~country, ~country_full,
+                   "MEX",    "Mexico",
+                   "USA",    "USA",
+                   "CHN",    "China",
+                   "IRN",    "Iran",
+                   "SAU",    "Saudi-Arabia",
+                   "IRQ",    "Iraq",
+                   "KWT",    "Kuwait",
+                   "VEN",    "Venezuela")
+
+oil_top <-
+  mutate(oil, 
+         country = as.character(country),
+         production_M = production / 1000) %>%  # Convert to million tonnes.
+  full_join(abb_key, by="country") %>%          # Add full country name
+  filter(year %in% 1980:1985) %>%               # Subset for years between 1980-1985
+  group_by(country_full) %>%
+  summarize(production_M = mean(production_M)) %>%
+  arrange(desc(production_M)) %>%               # Sort by production; in descending order
+  as.data.frame %>%                             # To be consistent, output a dataframe
+  head(., 10)                                    # Only show the top 32
+
+
+pander(oil_top)
+```
+
+
+## Olie productie grafiek
+
+```{r, fig.cap = "Productie van olie sinds 1970."}
+
+library(ggplot2)
+library(ggthemes)
+ggplot(oil, aes(x=year, y=production/1000, fill=country)) + 
+  geom_area() + 
+  labs(x = "", y = "Crude Oil Production (MOE)") +
+  scale_fill_economist()
+
+
+
+```
+
+
+
+## Statistische test
+
+```{r, echo=TRUE, results='hide'}
+library(car)
+
+oil_fit <- lm(production ~ year * country, data=oil)
+out <- Anova(oil_fit)
+
+
+pander(out)
+```
+

@@ -14,6 +14,15 @@ Deze website is tijdelijk, en bevat materialen en links voor de R cursus bij Pro
 
 <span style="font-size: 1.4em">[Exercises: solutions](compiled_html/lgr_exercises.html)</span>
 
+<hr>
+
+Laat hier graag even weten wat je van de training vond.
+Heb je nog opmerkingen, kritiek, of complimenten? Laat het ook even weten.
+
+<span style="font-size: 1.4em">[Link naar enquete en feedback](https://forms.gle/dCNyAMxFE1ZkCv6N6)</span>
+
+
+
 
 <hr>
 <br>
